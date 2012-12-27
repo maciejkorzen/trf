@@ -1,0 +1,27 @@
+0.4:
+- sprawdziłem kod splintem, poprawiłem część błędów,
+- zmniejszyłem szerokość tabeli.
+
+0.3:
+- dodałem '\0' na końcu allowed_*,
+- dodałem trminowanie łańcucha po wywołaniu strncpy(),
+- zmieniłem ilość miejsca podawanego jako trzeci argument strncat(), teraz
+  jest podawana ilość miejsca wolnego w docelowym buforze, a nie rozmiar tego
+  bufora,
+- większość intów zmieniłem na u_int,
+- poprawiona obsługa zimowej strefy czasowej ;-) [nie wiem czy teraz program
+  będzie działał na Linuksie ;->].
+
+0.2:
+- już nie można zmieniać nazwy pliku z logami połączeń przy pomocy -f,
+- to samo tyczy się limitu,
+- dodałem funkcję pobierz(),
+- dużo zmian w kodzie, teraz jest bardziej bezpieczny,
+- dodałem komentarze w kodzie,
+- część wprowadzanych danych jest sprawdzana, czy zawiera tylko dozwolone
+  znaki,
+- komunikaty błądu wysyłane są na stderr, a nie na stdout,
+- dodałem flagę '!'.
+
+0.1:
+- pierwsza oficjalna wersja programu

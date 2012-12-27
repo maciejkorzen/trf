@@ -1,0 +1,99 @@
+TaRyFikator by Maciej Korzeń <maciek@korzen.org>,
+http://www.korzen.org/soft/trf/
+
+1. Jak mówi nazwa programu, służy on do obliczania kosztów połączeń modemowych.
+Możliwości:
+	- obsługa ryczałtu (długość ryczałtu można zmieniać, przydaje się gdy
+	  kilka osób w domu korzysta z komputera i przez to każdy może
+          wykorzystać tylko pewien czas z ryczałtu),
+	- jeżeli nie mamy wykupionego ryczałtu, to ustawiamy jego długość na '0'
+	  i nie ma problemów,
+	- obliczanie czasu połączenia i obliczanie kosztów jest realizowane
+	  przez dwa odrębne programy - rozwiązanie jest bardziej elastyczne,
+	- program działa poprawnie na FreeBSD i Linuksie,
+	- wszystkie komunikaty wyświetlane są w języku polskim.
+
+Wady:
+	- został napisany pod kątem połączeń z TP S.A., może nie nadawać się do
+	  stosowania z innymi providerami bez przerobienia kodu,
+	- nie potrafi poprawnie obliczyć ceny połączeń dokonanych na przełomie
+	  miesięcy (połączenie rozpoczęte w jednym miesiącu, a zakończone w
+	  drugim), takie połączenia są przypisywane do miesiąca w którym miały
+	  początek.
+
+2. Instalacja
+W katalogu ze źródłami wystarczy napisać make all install. Można stosować
+zmienne DESTDIR i prefix (jeżeli ktoś będzie chciał zrobić paczkę).
+
+3. Używanie
+Plik z logami połączeń to ~/.trf. Informacje o aktualnym połączeniu są
+przechowywane w ~/.trf.current. Długość ryczałtu określamy w zmiennej środowiska
+TRFLIMIT. Przy czym wartość musi być w _sekundach_. Domyślnie przyjmowana jest
+wartość 14 godzin (81000 sekund), większość osób prawdopodobnie będzie chciała
+ustawić ją na 30 godzin (czyli 108000 sekund). Przed rozpoczęciem połączenia
+należy uruchomić skrypt trf, który będzie śledził czas połączenia i co sekundę
+zapisywał jego aktualny stan do ~/.trf.current. Po zakończeniu połączenia
+zawartość tego pliku zostanie dopisana do ~/.trf, a ~/.trf.current usunięty.
+Takie rozwiązanie ma kilka zalet:
+	- jeżeli w czasie połączenia z internetem z niezależnych od nas przyczyn
+	  komputer przerwie pracę, to i tak informacje o połączeniu będą w
+	  ~/.trf.current, wystarczy wtedy po uruchomieniu komputera wydać
+	  polecenie 'cat .trf.current >> .trf ; rm .trf.current'. Skrypt trf
+	  przed uruchomieniem sprawdza czy plik ~/.trf.current istnieje, jeżeli
+	  tak to przerywa działanie.
+	- w ~/.trf dane są zapisywane w postaci dwóch dat oddzielonych spacjami
+	  (pierwsza data to początek połączenia, a druga to koniec połączenia),
+	  możemy więc napisać własny program do sprawdzania czasów połączeń,
+	  np. na podstawie logów systemowych,
+	- trf za rozpoczęcie połączenia uważa utworzenie pliku
+	  /var/run/<INTERFEJS>.pid (we FreeBSD), lub /var/lock/LCK..<PORT> (w
+	  Linuksie), czyli zliczane jest od momentu wybierania numeru przez
+	  modem (w ten sposób logowane są nawet nieudane połączenia).
+Ponieważ trf za połączenie uważa każde podniesienie interfejsu (FreeBSD) lub
+otworzenie portu modemu (Linux) nie jest zalecane uruchamianie go w tle, aby
+działał przez cały czas. Lepiej jest go uruchamiać przed rozpoczęciem połączenia
+i wyłączać po jego zakończeniu. To rozwiązanie działa bardzo dobrze, gdy we
+FreeBSD łączymy się za pomocą 'ppp -background XXX'.
+Program trfs służy do wyświetlania informacji o połączenia, oblicza koszty,
+czasy połączeń, ilość impulsów. Dla ułatwienia w ostatniej kolumnie wyświetlane
+są flagi - ich opis jest pod tabelką. Litery mniejsze (t, d i w) obrazują w
+obrębie jakich taryf znalazło się połączenie. Np. "t" oznacza, że połączenie
+należy do taryfy tańszej, natomiast "tdt" oznacza, że połączenie było kolejno w
+obrębie taryf tańszej, droższej i tańszej. Duże litery (R, Z, P) określają czy
+połączenie zostało jeszcze objęte przez ryczałt, część połączenia odbyła się w
+jeszcze w ryczałcie, a część poza, oraz że połączenie odbyło się już poza
+ryczałtem. Jeżeli program zostanie uruchomiony w trakcie istniejącego
+połączenia, to ostatnie (bieżące) połączenie będzie miało flagę A. Jeżeli
+połączenie będzie bardzo długie (conajmniej kilka dni ;-)) i kilka flag się nie
+zmieści do tabeli, to zostanie to oznaczone przy pomocy flagi '!'.
+
+4. Logi
+Ze względu na różne implementacje funkcji strftime i strptime w Linuksie i
+FreeBSD, logi utworzone na tych systemach nie są kompatybilne.
+
+5. Zmienne środowiska
+TRF pozwala na zmianę jego domyślnego zachowania poprzez ustawienie zmiennych
+środowiska:
+TRFFILE - lokalizacja pliku z logami, względem katalogu domowego,
+TRFLIMIT - długość czasu ryczałtu w sekundach.
+
+6. Argumenty
+Trfs może być uruchomiony z argumentami:
+ -V			- wyświetla wersję programu,
+ -m miesiąc		- numer miesiąca (od 1 do 12), dla którego mają zostać
+			  wyświetlone koszty, domyślnie jest to bieżący miesiąc.
+
+Trf obsługuje wyżej wymienioną opcję "-V" i "-f plik" oraz "-d", która
+włącza debugowanie.
+
+7. Podpis PGP
+W plikach .asc znajdują się sygnatury potwierdzające autentyczność archiwum z
+programem. Mój klucz publiczny znajduje się pod adresem www.ceti.pl/eaquer/pgp.
+
+8. Najnowsze wersje
+Najnowsze wersje programu można znaleźć pod adresem: www.ceti.pl/eaquer/trf.
+
+9. Kontakt
+Wszelkie uwagi proszę wysyłać na adres eaquer@ceti.pl
+
+ vim:tw=80:
