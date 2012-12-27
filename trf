@@ -26,7 +26,7 @@ state=none
 pstate=none
 
 version() {
-	echo "TRF $version by Maciej Korzeń <eaquer@ceti.pl>"
+	echo "TRF $version by Maciej Korzeń <maciek@korzen.org>"
 	exit 1
 }
 

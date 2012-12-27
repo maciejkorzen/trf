@@ -88,12 +88,13 @@ włącza debugowanie.
 
 7. Podpis PGP
 W plikach .asc znajdują się sygnatury potwierdzające autentyczność archiwum z
-programem. Mój klucz publiczny znajduje się pod adresem www.ceti.pl/eaquer/pgp.
+programem. Mój klucz publiczny znajduje się pod adresem
+http://www.korzen.org/maciej_korzen.asc.
 
 8. Najnowsze wersje
-Najnowsze wersje programu można znaleźć pod adresem: www.ceti.pl/eaquer/trf.
+Najnowsze wersje programu można znaleźć pod adresem: www.korzen.org/soft/trf.
 
 9. Kontakt
-Wszelkie uwagi proszę wysyłać na adres eaquer@ceti.pl
+Wszelkie uwagi proszę wysyłać na adres maciek@korzen.org.
 
  vim:tw=80:

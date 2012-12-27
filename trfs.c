@@ -1018,7 +1018,7 @@ version(void)
 	 * Hmmm, to pewnie wyświetla numer wersji programu, ale do końca pewien
 	 * nie jestem ;-).
 	 */
-	printf("Trf " VERSION " by Maciej Korzeń <eaquer@ceti.pl>\n");
+	printf("Trf " VERSION " by Maciej Korzeń <maciek@korzen.org>\n");
 }
 
 void
